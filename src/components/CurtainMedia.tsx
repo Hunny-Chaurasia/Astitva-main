@@ -12,10 +12,10 @@ function getCurtainsEnabled() {
   }
 }
 
-export function CurtainMedia({ children, className = '', label }: { children: ReactNode; className?: string; label: string }) {
+export function CurtainMedia({ children, className = '', label, enableCurtain = false }: { children: ReactNode; className?: string; label: string; enableCurtain?: boolean }) {
   const [enabled, setEnabled] = useState(getCurtainsEnabled)
   const [opened, setOpened] = useState(false)
-  const isProfilePhoto = className.split(/\s+/).includes('rounded-full') || /profile photo/i.test(label)
+  const isProfilePhoto = /profile photo/i.test(label)
 
   useEffect(() => {
     const update = (event: Event) => {
@@ -28,7 +28,7 @@ export function CurtainMedia({ children, className = '', label }: { children: Re
 
   return <span className={`curtain-media ${className}`}>
     {children}
-    {enabled && !isProfilePhoto && <span
+    {enabled && enableCurtain && !isProfilePhoto && <span
       className={`curtain-media__cover${opened ? ' curtain-media__cover--open' : ''}`}
       role="button"
       tabIndex={0}
@@ -74,8 +74,8 @@ export function CurtainToggle({ notify }: { notify: (message: string) => void })
     type="button"
     onClick={toggle}
     aria-pressed={!enabled}
-    aria-label={enabled ? 'Remove curtains from all media' : 'Show curtains on all media'}
-    title={enabled ? 'Remove curtains from all media' : 'Show curtains on all media'}
+    aria-label={enabled ? 'Remove curtains from eligible posts' : 'Show curtains on eligible posts'}
+    title={enabled ? 'Remove curtains from eligible posts' : 'Show curtains on eligible posts'}
     className="curtain-toggle rounded-full px-2.5 py-2 text-xs font-semibold"
   >
     {enabled ? 'Curtains on' : 'Curtains off'}

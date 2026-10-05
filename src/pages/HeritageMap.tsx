@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, BellRing, BookOpen, CalendarDays, Camera, Check, Compass, MapPin, Route, Sparkles, X } from 'lucide-react'
 import { CurtainMedia } from '../components/CurtainMedia'
+import { photos } from '../data'
 
 type Place = { id: string; name: string; state: string; craft: string; story: string; image: string; region: string }
 type SavedTrip = { id: string; name: string; days: string; placeIds: string[] }
@@ -31,12 +32,18 @@ function MapDiscoveryTools({onSelectPlace,notify}:{onSelectPlace:(place:Place)=>
 }
 
 const places: Place[] = [
-  { id: 'kutch', name: 'Kutch', state: 'Gujarat', craft: 'Ajrakh printing · handloom', story: 'Meet Ajrakh printers, hear how indigo is prepared, and discover the geometry behind block-printed cloth.', image: 'https://images.unsplash.com/photo-1604881988758-f76ad2f7373f?auto=format&fit=crop&w=700&q=80', region: 'West' },
-  { id: 'jaipur', name: 'Jaipur', state: 'Rajasthan', craft: 'Blue pottery · block print', story: 'Explore the old city’s blue pottery studios and the mineral pigments used in their floral designs.', image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=700&q=80', region: 'North' },
-  { id: 'varanasi', name: 'Varanasi', state: 'Uttar Pradesh', craft: 'Banarasi weaving · music', story: 'Follow silk from the loom to the ghat, with stories shared by local weavers and musicians.', image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=700&q=80', region: 'North' },
-  { id: 'bastar', name: 'Bastar', state: 'Chhattisgarh', craft: 'Dhokra metalwork · forest life', story: 'Learn about lost-wax casting and the symbols carried through Bastar’s metalwork traditions.', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=700&q=80', region: 'Central' },
-  { id: 'madurai', name: 'Madurai', state: 'Tamil Nadu', craft: 'Sungudi textile · temple heritage', story: 'Discover the tie-dye traditions and temple streets that shape everyday life in Madurai.', image: 'https://images.unsplash.com/photo-1600100397608-f0107e9a9f7b?auto=format&fit=crop&w=700&q=80', region: 'South' },
-  { id: 'majuli', name: 'Majuli', state: 'Assam', craft: 'Mask making · satras', story: 'Visit mask makers and learn how performance, community and craft meet on the river island.', image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=700&q=80', region: 'East' },
+  { id: 'kutch', name: 'Kutch', state: 'Gujarat', craft: 'Ajrakh printing · handloom', story: 'Meet Ajrakh printers, hear how indigo is prepared, and discover the geometry behind block-printed cloth.', image: photos.indigo, region: 'West' },
+  { id: 'jaipur', name: 'Jaipur', state: 'Rajasthan', craft: 'Blue pottery · block print', story: 'Explore the old city’s blue pottery studios and the mineral pigments used in their floral designs.', image: photos.pottery, region: 'North' },
+  { id: 'varanasi', name: 'Varanasi', state: 'Uttar Pradesh', craft: 'Banarasi weaving · music', story: 'Follow silk from the loom to the ghat, with stories shared by local weavers and musicians.', image: photos.loom, region: 'North' },
+  { id: 'bastar', name: 'Bastar', state: 'Chhattisgarh', craft: 'Dhokra metalwork · forest life', story: 'Learn about lost-wax casting and the symbols carried through Bastar’s metalwork traditions.', image: photos.dhokra, region: 'Central' },
+  { id: 'madurai', name: 'Madurai', state: 'Tamil Nadu', craft: 'Sungudi textile · temple heritage', story: 'Discover the tie-dye traditions and temple streets that shape everyday life in Madurai.', image: photos.sungudi, region: 'South' },
+  { id: 'majuli', name: 'Majuli', state: 'Assam', craft: 'Mask making · satras', story: 'Visit mask makers and learn how performance, community and craft meet on the river island.', image: photos.mask, region: 'East' },
+  { id: 'raghurajpur', name: 'Raghurajpur', state: 'Odisha', craft: 'Pattachitra painting', story: 'Explore a village known for Pattachitra painting and hear how artists develop fine lines, colours and narrative scenes.', image: photos.pattachitra, region: 'East' },
+  { id: 'dahanu', name: 'Dahanu', state: 'Maharashtra', craft: 'Warli painting', story: 'Learn about Warli visual storytelling through the geometric forms and community knowledge shared by local artists.', image: photos.warli, region: 'West' },
+  { id: 'patiala', name: 'Patiala', state: 'Punjab', craft: 'Phulkari embroidery', story: 'Discover counted silk stitches, embroidered khaddar and the living textile practice of Phulkari.', image: photos.phulkari, region: 'North' },
+  { id: 'kannur', name: 'Kannur', state: 'Kerala', craft: 'Theyyam performance', story: 'Learn about the performance, music, costume and community knowledge connected to Theyyam in North Kerala.', image: photos.theyyam, region: 'South' },
+  { id: 'channapatna', name: 'Channapatna', state: 'Karnataka', craft: 'Lacquered wooden toys', story: 'Meet toy makers and explore wood turning, lac colouring and the workshops behind Channapatna toys.', image: photos.channapatna, region: 'South' },
+  { id: 'srinagar', name: 'Srinagar', state: 'Jammu and Kashmir', craft: 'Papier-mâché painting', story: 'Explore the stages of paper preparation, hand painting and finishing in Kashmiri papier-mâché craft.', image: photos.papier, region: 'North' },
 ]
 
 export function HeritageMap({ notify, setScreen, setQuery }: { notify: (message: string) => void; setScreen: (screen: 'feed'|'dashboard'|'marketplace'|'map'|'archive') => void; setQuery: (query: string) => void }) {

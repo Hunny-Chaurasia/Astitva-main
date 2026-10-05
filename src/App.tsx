@@ -6,7 +6,7 @@ import {
   ShoppingBag, Upload, X, Plus, UserRound,
 } from 'lucide-react'
 import { CurtainMedia, CurtainToggle } from './components/CurtainMedia'
-import { CommunityPost, ProductListing, Profile, Role, Screen, AuthMode, roleLabel, roleOptions, photos, sampleProducts, profiles, profileForRole, sampleCommunityPosts } from './data'
+import { CommunityPost, ProductListing, Profile, Role, Screen, AuthMode, roleLabel, roleOptions, photos, sampleProducts, profiles, profileForRole, sampleCommunityPosts, refreshSamplePosts, refreshSampleProducts } from './data'
 import { Feed } from './pages/FeedPage'
 import { Dashboard } from './pages/DashboardPage'
 import { Marketplace } from './pages/MarketplacePage'
@@ -37,8 +37,8 @@ function App() {
   const [profilePageId, setProfilePageId] = useState('')
   const [query, setQuery] = useState('')
   const [composer, setComposer] = useState<'product' | 'post' | null>(null)
-  const [products, setProducts] = useState<ProductListing[]>(() => {try{return JSON.parse(localStorage.getItem('astitva-products')||'null') as ProductListing[]||sampleProducts}catch{return sampleProducts}})
-  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(() => { try { return JSON.parse(localStorage.getItem('astitva-posts') || 'null') as CommunityPost[] || sampleCommunityPosts } catch { return sampleCommunityPosts } })
+  const [products, setProducts] = useState<ProductListing[]>(() => {try{const stored=JSON.parse(localStorage.getItem('astitva-products')||'null') as ProductListing[]|null;return stored?refreshSampleProducts(stored):sampleProducts}catch{return sampleProducts}})
+  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(() => { try { const stored=JSON.parse(localStorage.getItem('astitva-posts')||'null') as CommunityPost[]|null;return stored?refreshSamplePosts(stored):sampleCommunityPosts } catch { return sampleCommunityPosts } })
   const visibleProfiles = profiles.map(profile=>({...profile,...profileOverrides[profile.id]}))
   const currentProfile = visibleProfiles.find(profile=>profile.id===profileForRole(role).id) || profileForRole(role)
   const profileName = currentProfile.name
@@ -126,7 +126,7 @@ function App() {
             <button onClick={()=>setComposer('post')} className="header-create-button hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold sm:flex"><Plus size={16}/><span className="inline whitespace-nowrap">Create</span></button>
             <button aria-label="Notifications" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)} className="header-notifications-button relative rounded-full p-2"><Bell size={18}/>{!notificationsRead&&<span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#F6C026] ring-2 ring-[#3A0A14]"/>}</button>
             <span className="hidden sm:block"><CurtainToggle notify={notify}/></span>
-            <button onClick={()=>navigate('profile')} aria-label={`Open ${profileName}'s profile`} className="header-profile-button hidden items-center gap-2 rounded-full py-1 pl-1 pr-3 sm:flex"><CurtainMedia className="h-8 w-8 rounded-full" label={`${profileName} profile photo`}><img src={currentProfile.avatar} alt="" className="h-full w-full rounded-full object-cover"/></CurtainMedia><span className="text-sm font-semibold">{profileName}</span><UserRound size={15}/></button>
+            <button onClick={()=>navigate('profile')} aria-label={`Open ${profileName}'s profile`} className="header-profile-button hidden items-center gap-2 rounded-full py-1 pl-1 pr-3 sm:flex"><img src={currentProfile.avatar} alt="" className="h-8 w-8 rounded-full object-cover"/><span className="text-sm font-semibold">{profileName}</span><UserRound size={15}/></button>
           </div>
           {menuOpen && <section id="mobile-account-menu" aria-label="Mobile account menu" className="mobile-account-menu absolute right-3 top-[calc(100%+0.5rem)] z-40 w-[min(320px,calc(100vw-1.5rem))] lg:hidden"><p className="mobile-account-menu__eyebrow">CURRENT ACCOUNT</p><p className="mobile-account-menu__role">{roleLabel(role)}</p><div className="mobile-account-menu__curtains"><span>Media curtains</span><CurtainToggle notify={notify}/></div><button type="button" onClick={() => { setAuthenticated(false); setRole('Explorer'); setMenuOpen(false); setAuthMode('login') }} className="mobile-account-menu__signout"><span>Sign out</span><LogOut size={17}/></button></section>}
         </header>

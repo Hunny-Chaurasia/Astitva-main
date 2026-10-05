@@ -16,6 +16,8 @@ input, select, textarea { font-size: 14px !important; }
 [class*="text-[10px]"] { font-size: 13px !important; line-height: 1.5 !important; }
 [class*="text-[11px]"] { font-size: 14px !important; line-height: 1.5 !important; }
 ::selection { background: #ead6bd; }
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 .story-scroll { scrollbar-width: none; }
 .story-scroll::-webkit-scrollbar { display: none; }
 .woven-rule { height: 5px; background: repeating-linear-gradient(90deg, #39476d 0 12px, #d1a147 12px 16px, #984b35 16px 22px, #f7f3e9 22px 26px); opacity: .78; }
@@ -676,4 +678,84 @@ input, select, textarea, button { max-width: 100%; }
 @media (max-width: 700px) {
  .thread-story-frame__media { height: 88px; }
  .curtain-toggle { padding: .45rem .55rem; font-size: 10px; }
+}
+
+@media (max-width: 640px) {
+ .main-sari > header {
+  min-height: 62px;
+  gap: .5rem;
+  padding: .5rem .65rem;
+ }
+ .main-sari > header > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: .35rem;
+ }
+ .main-sari > header > div:first-child > div { min-width: 0; }
+ .main-sari > header h1 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: clamp(15px, 4vw, 20px);
+  line-height: 1.15;
+ }
+ .main-sari > header > div:nth-child(2) { flex: 0 0 auto; gap: .25rem; }
+ .main-sari > header > div:nth-child(2) > button { min-width: 40px; }
+ .sari-page {
+  padding-top: 1rem;
+  padding-bottom: 1.25rem;
+ }
+ .sari-page .sari-panel:not(.thread-card) { border-radius: 16px !important; }
+ .sari-page .grid > * { min-width: 0; }
+ .thread-board-grid { gap: 14px; padding: 0 0 20px; }
+ .thread-arch { height: clamp(210px, 68vw, 280px); }
+ .thread-card:nth-of-type(n) { animation: none; }
+ .thread-storyrail { padding: .9rem; }
+ .thread-board-links button { min-height: 88px; padding: 10px; }
+ .thread-board-links button > b { font-size: 15px; }
+ .thread-board-links button > small { font-size: 11px; }
+ .thread-storyboard { padding: 20px 12px 14px; }
+ .thread-storyboard-title h3 { font-size: 21px; }
+ .thread-storyboard-items { gap: 8px; }
+ .thread-story-frame { padding-inline: 5px; }
+ .thread-story-frame b { overflow-wrap: anywhere; font-size: 12px; }
+ .sari-mobile-nav {
+  min-height: calc(60px + env(safe-area-inset-bottom));
+  padding-top: .35rem;
+  padding-bottom: max(.4rem, env(safe-area-inset-bottom));
+ }
+ .sari-mobile-nav button { min-height: 48px; }
+ .notifications-panel {
+  top: calc(66px + env(safe-area-inset-top)) !important;
+  right: .5rem !important;
+  max-height: calc(100dvh - 76px - env(safe-area-inset-top));
+  overflow-y: auto;
+ }
+ .sari-composer-overlay,
+ .sari-trip-overlay {
+  align-items: flex-start;
+  overflow-y: auto;
+  padding-top: max(.75rem, env(safe-area-inset-top));
+  padding-bottom: max(.75rem, env(safe-area-inset-bottom));
+ }
+ .sari-composer-panel {
+  max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  border-radius: 18px;
+ }
+ .sari-trip-planner {
+  max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+ }
+ .sari-page[data-screen="map"] iframe { height: 300px; }
+}
+
+@media (max-width: 380px) {
+ .thread-board-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+ .auth-content { padding-left: 1rem; padding-right: 1rem; }
+ .auth-card { padding: 18px; }
+ .header-create-button { padding-left: .6rem; padding-right: .6rem; }
+ .sari-page { padding-left: .65rem; padding-right: .65rem; }
+ .thread-board-links button { min-height: 82px; padding: 8px; }
+ .sari-mobile-nav button { font-size: 9px; }
+ .sari-mobile-nav button svg { width: 17px; height: 17px; }
 }
