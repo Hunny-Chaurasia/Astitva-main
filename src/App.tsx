@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import {
   Archive, ArrowLeft, ArrowRight, BarChart3, Bell, BookOpen,
@@ -17,6 +17,8 @@ import { PostComposer } from './components/PostComposer'
 import { loadMedia } from './mediaStore'
 
 function App() {
+  const headerRef = useRef<HTMLElement>(null)
+  const [headerHeight, setHeaderHeight] = useState(0)
   const [authenticated, setAuthenticated] = useState(false)
   const [screen, setScreen] = useState<Screen>('feed')
   const [authMode, setAuthMode] = useState<AuthMode>('login')
