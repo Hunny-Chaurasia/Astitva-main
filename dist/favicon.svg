@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="mark" cx="35%" cy="25%" r="80%">
+      <stop offset="0" stop-color="#d45b48"/>
+      <stop offset=".52" stop-color="#a32544"/>
+      <stop offset="1" stop-color="#451947"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="18" fill="url(#mark)" stroke="#e8c15a" stroke-width="2"/>
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="none" stroke="#ffe79c" stroke-opacity=".24" stroke-width="2"/>
+  <text x="32" y="46" fill="#fff" font-family="serif" font-size="40" text-anchor="middle">अ</text>
+</svg>
