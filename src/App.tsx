@@ -45,6 +45,16 @@ function App() {
   const currentProfile = visibleProfiles.find(profile=>profile.id===profileForRole(role).id) || profileForRole(role)
   const profileName = currentProfile.name
 
+  useLayoutEffect(() => {
+    if (!authenticated || !headerRef.current) return
+    const header = headerRef.current
+    const updateHeight = () => setHeaderHeight(header.getBoundingClientRect().height)
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(header)
+    updateHeight()
+    return () => observer.disconnect()
+  }, [authenticated])
+
   const notify = (message: string) => {
     setToast(message)
     window.setTimeout(() => setToast(''), 2600)
@@ -118,7 +128,7 @@ function App() {
     <div className="mx-auto flex min-h-screen max-w-[1600px] lg:pl-[230px]">
       <Sidebar role={role} screen={screen} setScreen={navigate} onLogout={() => { setAuthenticated(false); setRole('Explorer'); setAuthMode('login') }} />
       <main className="main-sari relative min-w-0 flex-1 pb-[calc(4.25rem+env(safe-area-inset-bottom))] lg:pb-0">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#e9e3d9] bg-paper/95 px-4 py-3.5 backdrop-blur md:px-7">
+        <header ref={headerRef} className="app-fixed-header fixed left-0 right-0 top-0 z-30 flex items-center justify-between border-b border-[#e9e3d9] bg-paper/95 px-4 py-3.5 backdrop-blur md:px-7">
           <div className="flex items-center gap-3">
             <button type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close account menu' : 'Open account menu'} aria-expanded={menuOpen} aria-controls="mobile-account-menu" className="rounded-lg p-2 text-[#75675a] lg:hidden">{menuOpen ? <X size={19}/> : <Menu size={19}/>}</button>
             <div><p className="text-[9px] font-bold tracking-[.18em] text-[#a38665]">ASTITVA <span className="mx-1">/</span> {screen.toUpperCase()}</p><h1 className="mt-0.5 font-serif text-xl sm:text-[25px]">{screenTitle(screen, role)}</h1></div>
@@ -132,6 +142,7 @@ function App() {
           </div>
           {menuOpen && <section id="mobile-account-menu" aria-label="Mobile account menu" className="mobile-account-menu absolute right-3 top-[calc(100%+0.5rem)] z-40 w-[min(320px,calc(100vw-1.5rem))] lg:hidden"><p className="mobile-account-menu__eyebrow">CURRENT ACCOUNT</p><p className="mobile-account-menu__role">{roleLabel(role)}</p><div className="mobile-account-menu__curtains"><span>Media curtains</span><CurtainToggle notify={notify}/></div><button type="button" onClick={() => { setAuthenticated(false); setRole('Explorer'); setMenuOpen(false); setAuthMode('login') }} className="mobile-account-menu__signout"><span>Sign out</span><LogOut size={17}/></button></section>}
         </header>
+        <div aria-hidden="true" style={{ height: headerHeight }}/>
         {notificationsOpen && <section aria-label="Notifications" className="notifications-panel absolute right-4 top-[68px] z-50 w-[min(380px,calc(100vw-2rem))] rounded-2xl p-4"><div className="flex items-center justify-between gap-3"><div><p className="text-[10px] font-bold tracking-[.16em]">ASTITVA · UPDATES</p><h2 className="font-serif text-lg">Notifications</h2></div><button onClick={()=>{setNotificationsRead(true);notify('Notifications marked as read')}} className="notifications-mark-read text-xs font-bold">Mark all read</button></div><div className="mt-3 max-h-[55vh] space-y-2 overflow-y-auto">{platformNotices.filter(item=>item.audience==='Everyone'||(item.audience==='Artisans'&&role==='Artisan')||(item.audience==='Students & researchers'&&role==='Student / Researcher')||(item.audience==='Community reviewers'&&['Expert / Evaluator','Cultural Knowledge Holder'].includes(role))||(item.audience.startsWith('Festival alert'))).map((item,index)=><article key={`${item.created}-${index}`} className="notification-card rounded-xl p-3"><span className="block text-sm font-semibold">{item.title}</span><span className="mt-1 block text-xs">{item.audience} · {item.created}</span><p className="mt-2 text-sm leading-5">{item.body}</p></article>)}{!platformNotices.length&&<p className="notification-card rounded-xl p-3 text-sm">No platform notices yet. New community updates will appear here.</p>}</div><p className="mt-3 text-[11px]">Preview notices are stored locally on this device.</p></section>}
         <div className="sari-flight" role="img" aria-label="Astitva's marigold and mauli thread toran"><span className="sari-flight__motif" /><span className="sari-flight__pallu" /></div>
 

@@ -70,6 +70,13 @@ body { background-color: #fbf2da; background-image: repeating-linear-gradient(0d
 .sari-mobile-nav { border-color:#d4b664 !important; background:linear-gradient(100deg,rgba(255,248,230,.97),rgba(247,235,208,.97)) !important; box-shadow:0 -8px 24px rgba(71,38,43,.11); }
 .sari-mobile-nav button[aria-current="page"]::before { content:""; position:absolute; top:-8px; left:18%; right:18%; height:3px; border-radius:0 0 100% 100%; background:linear-gradient(90deg,#a62b45,#e2b144,#08796f); }
 .main-sari > header { border-color:#d9c995 !important; background-color:rgba(251,242,218,.94) !important; }
+.app-fixed-header { box-sizing:border-box; }
+@media (min-width:1024px) {
+ .app-fixed-header {
+  left:max(230px, calc((100vw - 1600px)/2 + 230px));
+  right:max(0px, calc((100vw - 1600px)/2));
+ }
+}
 .sari-page-heading h2 { color:#321d35; }
 @keyframes pallu-hover { to { transform:translateY(5px) rotate(-5deg) scale(1.04); } }
 @keyframes thread-sway { from { transform:skewY(-1.5deg) scaleY(.98); } to { transform:skewY(1.5deg) scaleY(1.01); } }
